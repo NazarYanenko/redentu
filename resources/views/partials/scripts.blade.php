@@ -155,3 +155,19 @@
     }
 
 </script>
+
+<script>
+    $('.watermark_text').hide();
+    $('#switchForm').on('change', function(){
+
+        if($(this).is(':checked')) {
+//            alert('1');
+            $('.watermark_image').show();
+            $('.watermark_text').hide();
+
+        } else {
+            $('.watermark_image').hide();
+            $('.watermark_text').show();
+        }
+    });
+</script>

@@ -15,6 +15,8 @@ class ImageController extends Controller
 
     public function upload(Request $request)
     {
+
         ImageMagic::upload($request);
+        return redirect()->back();
     }
 }
