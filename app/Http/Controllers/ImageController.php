@@ -11,6 +11,7 @@ class ImageController extends Controller
 {
     public function index(Request $request)
     {
+        @mkdir(storage_path('images'));
         if($request->isMethod('post')) {
             $paths = ImageMagic::upload($request);
             if ($paths) {
