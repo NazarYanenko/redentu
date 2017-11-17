@@ -1,73 +1,15 @@
-body{
-    padding-bottom:88px ;
-}
-@font-face {
-    font-family: 'airstreamregular';
-    src: url('../fonts/Airstream-webfont.eot');
-    src: url('../fonts/Airstream-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/Airstream-webfont.woff') format('woff'),
-    url('../fonts/Airstream-webfont.ttf') format('truetype'),
-    url('../fonts/Airstream-webfont.svg#airstreamregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-h2{
-    font-family: airstreamregular;
-}
-.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus:focus{
-    outline: none;
-}
-.navbar-custom{
-    background-color: #464646;
-    border-radius: 0;
-    padding: 15px;
-}
-
-.navbar-custom a.logo{
-   text-decoration: none;
-    color: whitesmoke;
-
-}
-.wrapper{
-    margin-top: -20px;padding: 20px 0 20px 0;
-    /*background-color: #464646;*/
-}
-
-
-.controlPanel{
-    position: fixed;
-    background-color: #464646;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 87px;
-}
-.controlPanel .submitBlock{
-    position:absolute;
-    background-color: #464646;
-    left: 50%;
-    bottom: 43px;
-    margin-left: -50px;
-    border-radius: 100%;
-}
-
-.controlPanel .submitBlock .btn-custom{
-    /*background-color: #464646;*/
-    background-color: #f0573b;
-    color: whitesmoke;
-    border-radius: 100%;
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.controlPanel .switchContainer{
-    margin-top: 25px;
-}
 /* test css*/
+
+/*@import url(https://fonts.googleapis.com/css?family=Open+Sans);*/
+/**,*/
+/**:before,*/
+/**:after {*/
+    /*box-sizing: border-box;*/
+/*}*/
+/*body {*/
+    /*background: #eee;*/
+    /*font-family: "Open Sans", Helvetica, sans-serif;*/
+/*}*/
 .setting {
     background: #fff;
     margin: 0 auto 3px;
@@ -243,53 +185,4 @@ h2{
     line-height: 23px;
     text-align: center;
     font-size: 16px;
-}
-.formBox{
-    height: 230px;
-    padding: 15px;
-    margin: 15px;
-    border: 4px dashed;
-    border-radius: 30px;
-}
-
-.borderDefault{
-    border-color: #464646;
-}
-.borderRed{
-    /*border-color: #f0573b;*/
-    border-color: rgb(255, 176, 210);
-}
-
-.borderblue{
-    border-color: rgb(41, 141, 255);
-}
-
-.borderPurple{
-    border-color: rgb(255, 112, 165);
-}
-
-.borderCreen{
-    /*border-color: rgb(136, 255, 77);*/
-    border-color: rgb(255, 184, 92);
-}
-
-
-.previevImg{
-    /*width: 500px;*/
-    /*height: 443px;*/
-    /*background-position: 100% 100%;*/
-    /*background-size: cover;*/
-    /*background-repeat: no-repeat;*/
-}
-
-.colorPicker{
-    margin-top: 24px;
-}
-.colorPicker > label{
-    color: white;
-}
-#setColor{
-    width: 40px;
-    height: 40px;
-    border-radius: 100%;
 }

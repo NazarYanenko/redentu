@@ -17,4 +17,5 @@
 
 
 Route::get('/','ImageController@index');
-Route::post('/upload','ImageController@upload')->name('upload-image');
+Route::post('/','ImageController@index');
+Route::get('/view/{id}','ImageController@view')->name('view');

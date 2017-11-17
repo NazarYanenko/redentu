@@ -1,43 +1,55 @@
-[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
-    position: absolute;
-    left: -9999px;
-}
+/* Switchery defaults. */
 
-[type="checkbox"]:not(:checked) + label, [type="checkbox"]:checked + label {
-    position: relative;
-    padding-left: 4em;
-    padding-top: .25em;
-    cursor: pointer;
-}
-
-[type="checkbox"]:not(:checked) + label:before, [type="checkbox"]:checked + label:before, [type="checkbox"]:not(:checked) + label:after, [type="checkbox"]:checked + label:after {
-    content: '';
-    position: absolute;
-    height: 1.5em;
-    transition: all .5s ease;
-}
-
-[type="checkbox"]:not(:checked) + label:before, [type="checkbox"]:checked + label:before {
-    left: 0;
-    top: 0;
-    width: 3em;
-    border: 2px solid #dddddd;
-    background: #dddddd;
-    border-radius: 1.1em;
-    z-index: -1;
-}
-
-[type="checkbox"]:not(:checked) + label:after, [type="checkbox"]:checked + label:after {
-    left: .15em;
-    top: .125em;
+.switchery {
     background-color: #fff;
-    border-radius: 50%;
-    width: 1.5em;
+    border: 1px solid #dfdfdf;
+    border-radius: 20px;
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    position: relative;
+    vertical-align: middle;
+    width: 50px;
+
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    box-sizing: content-box;
+    background-clip: content-box;
 }
 
-[type="checkbox"]:checked + label:after { left: 1.65em; }
+.switchery > small {
+    background: #fff;
+    border-radius: 100%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    height: 30px;
+    position: absolute;
+    top: 0;
+    width: 30px;
+}
 
-[type="checkbox"]:checked + label:before {
-    background-color: #72da67;
-    border-color: #72da67;
+/* Switchery sizes. */
+
+.switchery-small {
+    border-radius: 20px;
+    height: 20px;
+    width: 33px;
+}
+
+.switchery-small > small {
+    height: 20px;
+    width: 20px;
+}
+
+.switchery-large {
+    border-radius: 40px;
+    height: 40px;
+    width: 66px;
+}
+
+.switchery-large > small {
+    height: 40px;
+    width: 40px;
 }

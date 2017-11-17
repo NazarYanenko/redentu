@@ -1,8 +1,11 @@
 <!doctype html>
 <html lang="en">
 @include('partials.head')
+@include('partials.header')
 <body>
-    @yield('content')
+    <div class="wrapper">
+        @yield('content')
+    </div>
 @include('partials.scripts')
 </body>
 </html>

@@ -8,76 +8,118 @@
 
 use \Intervention\Image\Facades\Image as Image;
 use Illuminate\Http\Request;
-use Intervention\Image\ImageManagerStatic as ImageTest;
+use Illuminate\Support\Facades\Storage;
+//use Illuminate\Support\Facades\Input;
 
 
 class ImageMagic
 {
     public static function upload(Request $request)
     {
-//        $lol = ImageTest::make('public/foo.jpg')->resize(300, 200);
-//        $lol->text();
-        $files = $request->files->all();
-        if (isset($files['image'])) {
-            self::genrateImageDir();
-            $image = Image::make($files['image']->getPathName());
-            $text = $request->input('text');
-            $imageWidth = $image->getSize()->width;
-            $imageHeight = $image->getSize()->height;
-//echo "<pre>";
-//var_dump($image->iptc());
-//echo "</pre>";die;
-//            dd($image->limitColors(255, '#ff9900'));
+        if (isset($request->bgImage)) {
+            $imgLuminance = self::checkluminance($request->bgImage->getPathName());
 
-            if (!$request->input('checkbox')) {
-                $image->text($request->get('watermarkText'),$imageWidth/2,30,function ($font){
-                    watermarkText($font);
-//                    $font->file(public_path('fonts/GravitasOne.ttf'));
-//                    $font->size(9);
-//                    $font->color('#ff0000');
-//                    $font->valign('top');
-//                    $font->angle();
+            $image = Image::make($request->bgImage->getPathName());
+            $size = getImagesSize($image);
+//                 Тип Ватермарка
+            if (!$request->checkbox) {
+//                 Watermark Текстовий
+                $image->text($request->wmText,
+                    textPosition($size['width'], $request->wmText, 50),
+                    30,
+                    function ($font) use ($request,$imgLuminance) {
+                        textOptions($font, textLuminance($imgLuminance));
                 });
-//                $image->text('foo', 0, 0, function($font) {
-//                    $font->color(array(255, 255, 255, 0.5));
-//});
-            } elseif (isset($files['image2'])) {
-                $waterMark = Image::make($files['image2']->getPathName());
-                $image->insert($waterMark->resize(
-                    intval($imageHeight / 6),
-                    intval($imageWidth / 6)
-                )->opacity(70)
-                );
+
+            } elseif (isset($request->wmImage)){
+//                Watermark Картинка
+                $waterMark = Image::make($request->wmImage->getPathName());
+                $wmLuminance = self::checkluminance($request->wmImage->getPathName());
+                if ($imgLuminance == $wmLuminance) {
+                    wm_setLuminance($waterMark,$imgLuminance);
+                    $image->insert($waterMark->widen(getPercent($size['width'], 20))->opacity(60));
+                } else {
+                    $image->insert($waterMark->widen(getPercent($size['width'], 20))->opacity(60));
+                }
             }
-//            $image->text($text)->save(self::getUniqueName($files['image']->getPathName()));
-            if($request->input('text')){
-//                dd($request->input('text'));
-                $image->text($request->input('text'),$imageWidth/2,30,function ($font){
-                    watermarkText($font);
-//                    $font->file(public_path('fonts/GravitasOne.ttf'));
-//                    $font->size(14);
-//                    $font->color('#ff0000');
-//                    $font->align('center');
-//                    $font->valign('top');
-////                    $font->angle();
-                });
+
+//            Накладання тексту
+            if ($request->text) {
+
+                $image->text(
+                    $request->text,
+                    textPosition($size['width'], $request->text, 50),
+                    getPercent($size['height'], 90),
+                    function ($font) use ($request) {
+                        textOptions($font, $request->color);
+                    });
+//                dd($request->color);
             }
-//            $image->text($text)->save(self::getUniqueName($files['image']->getPathName()));
-            $image->save(self::getUniqueName($files['image']->getPathName()));
-            return $request;
+
+//          зберігає файл
+
+            $paths = self::getUniqueName($request->bgImage->getPathName());
+            $image->save(storage_path('app/public/images/').$paths);
+
+            return $paths;
         }
         return false;
     }
 
-
-
-    protected static function genrateImageDir()
-    {
-        @mkdir(public_path('images'));
-    }
+    /**
+     * Generate unique name for image
+     * @param $name
+     * @return string
+     */
 
     public static function getUniqueName($name)
     {
-        return public_path('images/' . sha1($name . time()) . '.jpeg');
+        return  sha1($name) . '.jpeg';
+    }
+
+    protected static function checkluminance($filename, $num_samples = 10)
+    {
+        $img = imagecreatefromjpeg($filename);
+        $width = imagesx($img);
+        $height = imagesy($img);
+
+        $x_step = intval($width / $num_samples);
+        $y_step = intval($height / $num_samples);
+
+        $total_lum = 0;
+
+        $sample_no = 1;
+
+        for ($x = 0; $x < $width; $x += $x_step) {
+            for ($y = 0; $y < $height; $y += $y_step) {
+
+                $rgb = imagecolorat($img, $x, $y);
+                $r = ($rgb >> 16) & 0xFF;
+                $g = ($rgb >> 8) & 0xFF;
+                $b = $rgb & 0xFF;
+
+                // choose a simple luminance formula from here
+                // http://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
+                $lum = ($r + $r + $b + $g + $g + $g) / 6;
+
+                $total_lum += $lum;
+
+                // debuggicng code
+                //           echo "$sample_no - XY: $x,$y = $r, $g, $b = $lum<br />";
+                $sample_no++;
+            }
+        }
+
+        // work out the average
+        $avg_lum = $total_lum / $sample_no;
+        if ($avg_lum <= 170) {
+//            Darck
+            return true;
+            } else {
+//            Light
+                return false;
+            }
+//return $avg_lum;
+
     }
 }

@@ -12,8 +12,10 @@ return [
     | any other location as required by the application or its packages.
     |
     */
-
+//    'image_path' => env('IMAGE_PATH', 'public/images'),
+    'image_path' => env('IMAGE_PATH', 'public/images'),
     'name' => env('APP_NAME', 'Laravel'),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +170,7 @@ return [
          * Package Service Providers...
          */
         Intervention\Image\ImageServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -178,6 +181,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ImageMagicServiceProvider::class,
+
 
     ],
 

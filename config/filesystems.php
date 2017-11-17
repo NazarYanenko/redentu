@@ -43,9 +43,14 @@ return [
 
     'disks' => [
 
+//        'local' => [
+//            'driver' => 'local',
+//            'root' => storage_path('app'),
+//        ],
+
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root' => public_path(),
         ],
 
         'public' => [
@@ -55,6 +60,13 @@ return [
             'visibility' => 'public',
         ],
 
+//        'public' => [
+//            'driver' => 'local',
+//            'root' => storage_path('app/public'),
+//            'url' => env('APP_URL').'/s/var/www/html/redentutask/storage',
+//            'visibility' => 'public',
+//        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -62,6 +74,11 @@ return [
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BUCKET'),
         ],
+
+        'images' => [
+            'driver' => 'local',
+            'root' => public_path('images')
+        ]
 
     ],
 
